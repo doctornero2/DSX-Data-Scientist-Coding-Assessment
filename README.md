@@ -14,15 +14,15 @@ Together, these projects demonstrate the ability to work across the clinical dat
 ```
 DSX-Data-Scientist-Coding-Assessment/
 │
-├── 01_SDTM_DS_Domain_Creation/
+├── question_2_sdtm/
 |   |
 │   └── 02_create_DS_domain.R
 │
-├── 02_ADaM_ADSL_Dataset_Creation/
+├── question_3_adam/
 |   |
 │   └── create_adsl.R
 │
-└── 03_GenAI_Clinical_Data_Assistant/
+└── question_6_genAI/
     |
     ├── 06_question_GenAI_EXT.ipynb
     └── Metadate_06_question
