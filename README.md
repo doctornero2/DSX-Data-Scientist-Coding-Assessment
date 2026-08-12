@@ -28,5 +28,8 @@ DSX-Data-Scientist-Coding-Assessment/
     └── Metadate_06_question
 ```
 
-## SDTM DS Domain Creation using {sdtm.oak}
+## Content of each folder
+## Question 2 - SDTM DS Domain Creation using {sdtm.oak}
+
+
 
