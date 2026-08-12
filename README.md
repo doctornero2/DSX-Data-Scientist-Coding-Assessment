@@ -15,20 +15,18 @@ Together, these projects demonstrate the ability to work across the clinical dat
 DSX-Data-Scientist-Coding-Assessment/
 │
 ├── 01_SDTM_DS_Domain_Creation/
+|   |
 │   └── 02_create_DS_domain.R
 │
 ├── 02_ADaM_ADSL_Dataset_Creation/
+|   |
 │   └── create_adsl.R
 │
 └── 03_GenAI_Clinical_Data_Assistant/
+    |
     ├── 06_question_GenAI_EXT.ipynb
     └── Metadate_06_question
 ```
 
-
-
-
-
-
-
+## SDTM DS Domain Creation using {sdtm.oak}
 
