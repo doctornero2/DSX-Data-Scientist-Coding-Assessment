@@ -32,5 +32,8 @@ DSX-Data-Scientist-Coding-Assessment/
 
 Question 2 - SDTM DS Domain Creation using {sdtm.oak}
 
+This folder contains the implementation of an SDTM DS (Disposition) domain using R. The objective is to demonstrate how clinical trial raw data can be transformed into a CDISC-compliant SDTM domain using a metadata-driven and reusable approach. In the folder, there is just one file. Please make sure you have all the libraries needed. 
+
+
 
 
