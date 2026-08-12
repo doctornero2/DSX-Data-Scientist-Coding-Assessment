@@ -29,7 +29,8 @@ DSX-Data-Scientist-Coding-Assessment/
 ```
 
 ## Content of each folder
-## Question 2 - SDTM DS Domain Creation using {sdtm.oak}
+
+Question 2 - SDTM DS Domain Creation using {sdtm.oak}
 
 
 
