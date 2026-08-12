@@ -1,9 +1,15 @@
-# DSX-Data-Scientist-Coding-Assessment
+# DSX Data Scientist Coding Assessment
 
-This repository contains a collection of coding projects demonstrating capabilities across clinical data standards, clinical programming, data science, and Generative AI.
+This repository contains my submission for the **Data Scientist Coding Assessment**, demonstrating practical experience across clinical data standards, statistical programming, data engineering, and Generative AI.
 
-The assessment is structured into three complementary projects:
+The repository is organised into three main projects:
 
-SDTM DS Domain Creation using {sdtm.oak}
-ADaM ADSL Dataset Creation
-GenAI Clinical Data Assistant
+1. **SDTM DS Domain Creation using `{sdtm.oak}`**
+2. **ADaM ADSL Dataset Creation using `{admiral}`**
+3. **GenAI Clinical Data Assistant**
+
+Together, these projects demonstrate the ability to work across the clinical data lifecycle, from raw clinical data transformation and CDISC standards implementation to advanced analytics and AI-powered clinical data querying.
+
+---
+
+## Repository Structure
