@@ -23,6 +23,8 @@ DSX-Data-Scientist-Coding-Assessment/
 └── 03_GenAI_Clinical_Data_Assistant/
     ├── 06_question_GenAI_EXT.ipynb
     └── Metadate_06_question
+```
+
 
 
 
