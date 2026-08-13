@@ -93,11 +93,11 @@ Pandas
 Pydantic
 LangChain
 OpenAI LLM
+Architecture
 CDISC SDTM AE metadata
 ```
-The assistant translates a natural-language clinical question into a structured query and then executes that query against the AE dataset. The LLM does not directly execute Python or Pandas code. Instead, the LLM generates a constrained structured representation of the query. The Python application then validates and executes those filters deterministically using Pandas.
+The assistant translates a natural-language clinical question into a structured query and then executes that query against the AE dataset. The LLM does not directly execute Python or Pandas code. Instead, the LLM generates a constrained structured representation of the query. The Python application then validates and executes those filters deterministically using Pandas. Below there is a high-level architecture schema. 
 
-Architecture
 ```
   Natural-language question
             |
@@ -116,5 +116,6 @@ Architecture
             v
  Subject count + Subject IDs
 ```
+The Question 06 deliverable consists of four files. The main Python script (question_06_GenAI.py) containing the implementation of the GenAI Clinical Data Assistant. The Jupyter Notebook (question_06_test_script.ipynb) is the test script for the GenAI. It runs three example natural-language queries against the SDTM AE dataset and prints the results. AE dataset dictionary / metadata. This Python file contains the metadata dictionary for the CDISC SDTM Adverse Events (AE) domain. Python package requirements that contain the third-party Python packages required to run the GenAI Clinical Data Assistant.
 
 
