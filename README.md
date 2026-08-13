@@ -117,7 +117,6 @@ The assistant translates a natural-language clinical question into a structured 
  Subject count + Subject IDs
 ```
 The Question 06 deliverable consists of four files. 
-
     - The main Python script ('question_06_GenAI.py') containing the implementation of the GenAI Clinical Data Assistant. 
     - The Jupyter Notebook ('question_06_test_script.ipynb') is the test script for the GenAI. It runs three example natural-language queries against the SDTM AE dataset and prints the results. 
     - AE dataset dictionary / metadata ('Metadata_06_question.py'). This Python file contains the metadata dictionary for the CDISC SDTM Adverse Events (AE) domain. 
