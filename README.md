@@ -125,7 +125,7 @@ The Question 06 deliverable consists of four files.
 
 ## Video Explanation
 
-A 2-minute video explaining the approach, design decisions,
+A video explaining the approach, design decisions,
 key challenges, and lessons learned from the assessment.
 
 [Watch the video](./video/Video_Explanation.mp4)
