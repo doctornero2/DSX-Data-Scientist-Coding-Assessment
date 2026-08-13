@@ -123,6 +123,13 @@ The Question 06 deliverable consists of four files.
 3. AE dataset dictionary / metadata ('Metadata_06_question.py'). This Python file contains the metadata dictionary for the CDISC SDTM Adverse Events (AE) domain.
 4. Python package requirements that contain the third-party Python packages required to run the GenAI Clinical Data Assistant.
 
+## Video Explanation
+
+A 2-minute video explaining the approach, design decisions,
+key challenges, and lessons learned from the assessment.
+
+[Watch the video](./video/Video_Explanation.mp4)
+
 
 
 
