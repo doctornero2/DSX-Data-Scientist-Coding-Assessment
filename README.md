@@ -32,9 +32,40 @@ DSX-Data-Scientist-Coding-Assessment/
 
 ## Content of each folder
 
-Question 2 - SDTM DS Domain Creation using {sdtm.oak}
+### Question 2 - SDTM DS Domain Creation using {sdtm.oak}
+### Folder: question_2_sdtm/
 
-This folder contains the implementation of an SDTM DS (Disposition) domain using R. The objective is to demonstrate how clinical trial raw data can be transformed into a CDISC-compliant SDTM domain using a metadata-driven and reusable approach. In the folder, there is just one file. Please make sure you have all the libraries needed. 
+This folder contains the implementation of an SDTM DS (Disposition) domain using R. The objective is to demonstrate how clinical trial raw data can be transformed into a CDISC-compliant SDTM domain using a metadata-driven and reusable approach. In the folder, there is just one scritp file as requested. Please make sure you have all the libraries needed. 
+
+The script demonstrates:
+
+Loading raw clinical trial data
+Loading CDISC Controlled Terminology
+Creation of OAK identifier variables
+Mapping raw variables to SDTM variables
+Controlled terminology mapping
+Hard-coded controlled terminology values
+ISO 8601 date/time derivation
+Visit and visit number derivation
+Derivation of DSSEQ
+Derivation of study day
+Creation of the final SDTM DS dataset
+
+Key {sdtm.oak} functions demonstrated include:
+
+assign_no_ct()
+assign_ct()
+hardcode_ct()
+hardcode_no_ct()
+assign_datetime()
+derive_seq()
+derive_study_day()
+
+Question 3 – ADaM ADSL Dataset Creation
+Folder question_3_adam/
+
+
+
 
 
 
