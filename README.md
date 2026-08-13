@@ -38,7 +38,7 @@ DSX-Data-Scientist-Coding-Assessment/
 This folder contains the implementation of an SDTM DS (Disposition) domain using R. The objective is to demonstrate how clinical trial raw data can be transformed into a CDISC-compliant SDTM domain using a metadata-driven and reusable approach. In the folder, there is just one scritp file as requested. Please make sure you have all the libraries needed. 
 
 The script demonstrates:
-
+```
 Loading raw clinical trial data
 Loading CDISC Controlled Terminology
 Creation of OAK identifier variables
@@ -50,23 +50,71 @@ Visit and visit number derivation
 Derivation of DSSEQ
 Derivation of study day
 Creation of the final SDTM DS dataset
+```
 
-Key {sdtm.oak} functions demonstrated include:
+### Question 3 – ADaM ADSL Dataset Creation
+### Folder: question_3_adam/
 
-assign_no_ct()
-assign_ct()
-hardcode_ct()
-hardcode_no_ct()
-assign_datetime()
-derive_seq()
-derive_study_day()
+This folder contains the R script used to create the ADaM Subject-Level Analysis Dataset (ADSL) from SDTM domains. The implementation uses the {admiral} package and demonstrates derivations commonly required for an ADSL dataset.
 
-Question 3 – ADaM ADSL Dataset Creation
-Folder question_3_adam/
+The script uses SDTM domains including:
+```
+DM – Demographics
+DS – Disposition
+EX – Exposure
+AE – Adverse Events
+VS – Vital Signs
+```
+The script demonstrates:
+```
+Creation of the ADSL dataset from SDTM DM
+Treatment variable derivation
+Age group derivation
+Treatment start date/time derivation
+Treatment end date/time derivation
+ITT flag derivation
+Abnormal systolic blood pressure flag derivation
+Cardiac adverse event flag derivation
+Last available assessment date derivation
+Merging information from multiple SDTM domains
+Date and date-time transformations
+Subject-level derivations
+```
 
+### Question 6 – GenAI Clinical Data Assistant
+### Folder: question_6_genAI/
 
+This folder contains a Python-based Generative AI Clinical Data Assistant designed to answer natural-language questions about the CDISC SDTM Adverse Events (AE) domain.
 
+The solution combines:
+```
+Python
+Pandas
+Pydantic
+LangChain
+OpenAI LLM
+CDISC SDTM AE metadata
+```
+The assistant translates a natural-language clinical question into a structured query and then executes that query against the AE dataset. The LLM does not directly execute Python or Pandas code. Instead, the LLM generates a constrained structured representation of the query. The Python application then validates and executes those filters deterministically using Pandas.
 
-
+Architecture
+```
+  Natural-language question
+            |
+            v
+      LLM / LangChain
+            |
+            v
+   Pydantic QueryStructure
+            |
+            v
+     Structured filters
+            |
+            v
+      Pandas execution
+            |
+            v
+ Subject count + Subject IDs
+```
 
 
