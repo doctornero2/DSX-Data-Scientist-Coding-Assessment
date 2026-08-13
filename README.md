@@ -20,12 +20,14 @@ DSX-Data-Scientist-Coding-Assessment/
 │
 ├── question_3_adam/
 |   |
-│   └── create_adsl.R
+│   └── 03_create_adsl.R
 │
 └── question_6_genAI/
     |
-    ├── 06_question_GenAI_EXT.ipynb
-    └── Metadate_06_question
+    ├── question_06_GenAI.py
+    ├── question_06_test_script.ipynb
+    ├── Metadate_06_question.py
+    └── requirements.txt
 ```
 
 ## Content of each folder
