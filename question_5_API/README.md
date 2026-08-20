@@ -1,75 +1,59 @@
 # Clinical Trial Data API
 
-This project implements a RESTful API using **FastAPI** to serve and analyse clinical trial adverse event data.
+A RESTful API built with **FastAPI** for querying clinical adverse event data and calculating patient-level safety risk scores.
 
-The API provides:
+The API uses SDTM **Adverse Events (AE)** and **Demographics (DM)** data from the Pharmaverse project.
 
-* GET /                                         A health-check endpoint
-* POST /ae-query                                Dynamic adverse-event cohort filtering
-* GET /subject-risk/{subject_id}                Subject-level Safety Risk Score calculation
-
-The project uses SDTM **AE (Adverse Events)** and **DM (Demographics)** data from the `pharmaverse` examples.
+The AE and DM datasets are merged using `USUBJID` so that treatment-arm information (`ACTARM`) from DM can be used alongside adverse-event information such as `AESEV`.
 
 ---
 
 ## 1. Project Overview
 
-The API is designed around clinical trial adverse-event data.
+This project implements a clinical data API with three endpoints:
 
-The SDTM AE dataset contains event-level information such as:
-
-* `USUBJID` — Unique Subject Identifier
-* `AESEV` — Severity/Intensity
-* `AETERM` — Reported Term for the Adverse Event
-* `AEDECOD` — Dictionary-Derived Term
-* Other AE-related variables
-
-The treatment-arm variable `ACTARM` is not part of the SDTM AE domain. It is available in the SDTM DM dataset.
-Therefore, the application merges the two datasets using `USUBJID`.
-
-This allows the API to filter adverse events by both:
-
-* AE severity (`AESEV`)
-* Actual treatment arm (`ACTARM`)
-
-
+| Method | Endpoint                     | Description                                 |
+| ------ | ---------------------------- | ------------------------------------------- |
+| GET    | `/`                          | API health/welcome message                  |
+| POST   | `/ae-query`                  | Dynamically filter adverse-event records    |
+| GET    | `/subject-risk/{subject_id}` | Calculate a subject-level safety risk score |
 
 ---
 
-# 3. Requirements
+# 2. Requirements
 
-The following software is required:
+The following are required:
 
 * Python 3.9+
-* pip
+* pandas
+* FastAPI
+* Uvicorn
 
-The following Python packages are used:
+The API can be run locally without a database.
 
-* `pandas`
-* `fastapi`
-* `uvicorn`
-* `pydantic`
+---
+
+# 3. Project Structure
+
+A simple project structure is:
+
+```text
+question_5_API/
+│
+├── main.py
+├── requirements.txt
+└── README.md
+```
+
+`main.py` contains the FastAPI application and data-processing logic.
 
 ---
 
 # 4. Installation
 
-## Step 1 — Clone or download the repository
+## Create a virtual environment
 
-Clone the repository and navigate to the Question 5 directory.
-
-For example:
-
-```bash
-git clone <repository-url>
-cd question5
-```
-
----
-
-## Step 2 — Create a virtual environment
-
-Creating a virtual environment is recommended so that the project dependencies are isolated from other Python projects.
+It is recommended to create a dedicated Python virtual environment.
 
 ### Linux / macOS
 
@@ -85,25 +69,23 @@ python -m venv .venv
 .venv\Scripts\activate
 ```
 
-After activation, the terminal should indicate that the `.venv` environment is active.
-
 ---
 
-# 5. Install Dependencies
+## Install dependencies
 
-Install the required Python packages:
+Install the required packages:
 
 ```bash
 pip install pandas fastapi uvicorn
 ```
 
-Alternatively, if a `requirements.txt` file is provided:
+Alternatively, if `requirements.txt` is available:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-A minimal `requirements.txt` is:
+A suitable `requirements.txt` is:
 
 ```text
 pandas
@@ -113,31 +95,15 @@ uvicorn
 
 ---
 
-# 6. Project Structure
+# 5. Running the API Locally
 
-The project can be organised as follows:
-
-```text
-question5/
-│
-├── main.py
-├── requirements.txt
-└── README.md
-```
-
-The main application is contained in:
+The FastAPI application is assumed to be stored in:
 
 ```text
 main.py
 ```
 
-The application downloads the AE and DM datasets when the API starts.
-
----
-
-# 7. Running the API Locally
-
-From the directory containing `main.py`, run:
+Start the local development server with:
 
 ```bash
 uvicorn main:app --reload
@@ -145,20 +111,21 @@ uvicorn main:app --reload
 
 ### Explanation
 
-The command:
+```text
+uvicorn
+    -> ASGI web server
 
-```bash
-uvicorn main:app --reload
+main
+    -> Python file main.py
+
+app
+    -> FastAPI application object
+
+--reload
+    -> Automatically reload the server when code changes
 ```
 
-means:
-
-* `uvicorn` — ASGI web server used to run the FastAPI application
-* `main` — Python module containing the application (`main.py`)
-* `app` — FastAPI application object defined as `app = FastAPI(...)`
-* `--reload` — automatically reloads the application when the source code changes
-
-The API should start at:
+The API should then be available at:
 
 ```text
 http://127.0.0.1:8000
@@ -166,21 +133,27 @@ http://127.0.0.1:8000
 
 ---
 
-# 8. Test the API
+# 6. Interactive API Documentation
 
 FastAPI automatically generates interactive API documentation.
 
-Open the following address in a browser:
+Open:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
-The Swagger UI provides an interactive interface for testing all endpoints.
+This provides a Swagger UI where the endpoints can be tested directly from the browser.
+
+FastAPI also provides an alternative documentation interface at:
+
+```text
+http://127.0.0.1:8000/redoc
+```
 
 ---
 
-# 9. Endpoint 1 — API Health Check
+# 8. Endpoint 1 - API Status
 
 ## GET `/`
 
@@ -202,13 +175,13 @@ GET /
 
 ---
 
-# 10. Endpoint 2 — Dynamic AE Query
+# 9. Endpoint 2 - Dynamic AE Query
 
 ## POST `/ae-query`
 
-This endpoint dynamically filters adverse-event records.
+This endpoint dynamically filters the clinical adverse-event dataset.
 
-The API supports two optional filters:
+The API accepts two optional filters:
 
 * `severity`
 * `treatment_arm`
@@ -222,59 +195,16 @@ The API supports two optional filters:
 }
 ```
 
-### Mapping to clinical variables
-
-| API field       | Clinical variable | Dataset |
-| --------------- | ----------------- | ------- |
-| `severity`      | `AESEV`           | AE      |
-| `treatment_arm` | `ACTARM`          | DM      |
-
-`ACTARM` is merged into the AE dataset using `USUBJID` before the API filtering is performed.
-
----
-
-## Dynamic Filtering Logic
-
-Both filters are optional.
-
-### Severity only
-
-```json
-{
-    "severity": ["MILD", "MODERATE"]
-}
-```
-
-The API applies:
+The fields map to:
 
 ```text
-AESEV IN ("MILD", "MODERATE")
+severity       -> AESEV
+treatment_arm  -> ACTARM
 ```
 
-### Treatment arm only
+When both filters are supplied, they are combined using **AND logic**.
 
-```json
-{
-    "treatment_arm": "Placebo"
-}
-```
-
-The API applies:
-
-```text
-ACTARM = "Placebo"
-```
-
-### Both filters
-
-```json
-{
-    "severity": ["MILD", "MODERATE"],
-    "treatment_arm": "Placebo"
-}
-```
-
-Both criteria must be satisfied:
+Therefore:
 
 ```text
 AESEV IN ("MILD", "MODERATE")
@@ -282,7 +212,33 @@ AND
 ACTARM = "Placebo"
 ```
 
-### No filters
+---
+
+## Severity only
+
+```json
+{
+    "severity": ["MILD", "MODERATE"]
+}
+```
+
+Only the `AESEV` filter is applied.
+
+---
+
+## Treatment arm only
+
+```json
+{
+    "treatment_arm": "Placebo"
+}
+```
+
+Only the `ACTARM` filter is applied.
+
+---
+
+## No filters
 
 ```json
 {}
@@ -290,9 +246,11 @@ ACTARM = "Placebo"
 
 All AE records are returned.
 
-### Null values
+---
 
-If a filter is `null`, it is ignored.
+## Null values
+
+If a field is `null`, that filter is ignored.
 
 For example:
 
@@ -303,16 +261,17 @@ For example:
 }
 ```
 
-Only the treatment-arm filter is applied.
+is equivalent to applying only:
+
+```text
+ACTARM = "Placebo"
+```
 
 ---
 
 ## Response
 
-The endpoint returns:
-
-* The number of matching AE records
-* The unique `USUBJID` values in the resulting cohort
+The endpoint returns the number of matching AE records and the unique subjects in the resulting cohort.
 
 Example:
 
@@ -327,15 +286,15 @@ Example:
 }
 ```
 
-The `count` represents the number of matching **AE records**, while `subject_ids` contains unique subjects.
+`count` represents the number of matching **AE records**, while `subject_ids` contains unique `USUBJID` values.
 
 ---
 
-# 11. Endpoint 3 — Subject Safety Risk
+# 10. Endpoint 3 - Subject Safety Risk
 
 ## GET `/subject-risk/{subject_id}`
 
-This endpoint calculates a Safety Risk Score for a specific subject.
+This endpoint calculates a weighted **Safety Risk Score** for a specific subject.
 
 ### Example request
 
@@ -343,13 +302,13 @@ This endpoint calculates a Safety Risk Score for a specific subject.
 GET /subject-risk/01-701-1015
 ```
 
-The endpoint first identifies all AE records for the requested subject.
+The API first filters the AE dataset for the specified `USUBJID`.
 
 ---
 
 ## Risk Score Calculation
 
-Each AE contributes points according to its severity:
+Each adverse event receives a weight according to `AESEV`:
 
 | AESEV    | Points |
 | -------- | -----: |
@@ -357,7 +316,7 @@ Each AE contributes points according to its severity:
 | MODERATE |      3 |
 | SEVERE   |      5 |
 
-The total risk score is the sum of all applicable AE points.
+The points are summed across all AE records for the subject.
 
 ### Example
 
@@ -376,19 +335,7 @@ the score is:
 1 + 3 + 1 + 3 = 8
 ```
 
----
-
-## Risk Categories
-
-|        Risk Score | Risk Category |
-| ----------------: | ------------- |
-|             `< 5` | Low           |
-| `5 <= score < 15` | Medium        |
-|           `>= 15` | High          |
-
-Therefore, a score of `8` is classified as `Medium`.
-
-### Example response
+Therefore:
 
 ```json
 {
@@ -400,17 +347,46 @@ Therefore, a score of `8` is classified as `Medium`.
 
 ---
 
-# 12. Error Handling
+## Risk Categories
 
-If the requested subject does not exist, the API returns HTTP status code `404`.
+The following thresholds are used:
 
-### Example
+|        Risk Score | Category |
+| ----------------: | -------- |
+|             `< 5` | Low      |
+| `5 <= score < 15` | Medium   |
+|           `>= 15` | High     |
+
+For example:
+
+```text
+Score = 3
+Category = Low
+```
+
+```text
+Score = 8
+Category = Medium
+```
+
+```text
+Score = 15
+Category = High
+```
+
+---
+
+# 11. Error Handling
+
+If the requested subject does not exist, the API returns HTTP status `404`.
+
+Example:
 
 ```http
 GET /subject-risk/01-999-9999
 ```
 
-### Response
+Response:
 
 ```json
 {
@@ -426,50 +402,21 @@ HTTP status:
 
 ---
 
-# 13. API Workflow
+# 12. Testing the API
 
-The overall application workflow is:
-
-```text
-             SDTM AE
-                |
-                |
-             USUBJID
-                |
-                v
-             SDTM DM
-                |
-              ACTARM
-                |
-                v
-        AE + ACTARM dataset
-                |
-                v
-            FastAPI
-                |
-       +--------+---------+
-       |        |         |
-       v        v         v
-      GET    POST       GET
-       /    /ae-query   /subject-risk/{id}
-       |        |         |
-       v        v         v
-   Health    Dynamic    Risk Score
-    Check    Cohort     Calculation
-             Analysis
-```
-
----
-
-# 14. Example API Tests
-
-The following requests can be tested through:
+The easiest way to test the API is through the automatically generated Swagger interface:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
-### Test 1 — API status
+Select an endpoint, click **Try it out**, provide the request parameters/body, and click **Execute**.
+
+---
+
+## Example API tests
+
+### Test 1 - API status
 
 ```http
 GET /
@@ -483,7 +430,15 @@ Expected:
 }
 ```
 
-### Test 2 — Severity filter
+---
+
+### Test 2 - Filter by severity
+
+```http
+POST /ae-query
+```
+
+Request body:
 
 ```json
 {
@@ -491,7 +446,15 @@ Expected:
 }
 ```
 
-### Test 3 — Treatment filter
+---
+
+### Test 3 - Filter by treatment arm
+
+```http
+POST /ae-query
+```
+
+Request body:
 
 ```json
 {
@@ -499,7 +462,15 @@ Expected:
 }
 ```
 
-### Test 4 — Combined filters
+---
+
+### Test 4 - Filter using both criteria
+
+```http
+POST /ae-query
+```
+
+Request body:
 
 ```json
 {
@@ -508,42 +479,102 @@ Expected:
 }
 ```
 
-### Test 5 — Subject risk
+---
+
+### Test 5 - Calculate subject risk
 
 ```http
 GET /subject-risk/01-701-1015
 ```
 
-### Test 6 — Unknown subject
+Expected response structure:
+
+```json
+{
+    "subject_id": "01-701-1015",
+    "risk_score": 8,
+    "risk_category": "Medium"
+}
+```
+
+The actual score depends on the AE records in the dataset.
+
+---
+
+### Test 6 - Unknown subject
 
 ```http
 GET /subject-risk/01-999-9999
 ```
 
-Expected HTTP status:
+Expected:
 
 ```text
-404
+HTTP 404 Not Found
 ```
 
 ---
 
-# 15. Technical Summary
+# 13. Technical Summary
 
-This implementation demonstrates:
+The application demonstrates:
 
-* REST API development with FastAPI
+* RESTful API development with FastAPI
 * Pydantic request validation
-* Pandas clinical-data manipulation
+* Pandas clinical-data processing
 * SDTM AE and DM data integration
-* Subject-level data linkage using `USUBJID`
-* Dynamic filtering using optional parameters
-* Cohort identification
-* Clinical-event severity weighting
-* Risk-score calculation
-* Risk categorisation
+* Subject-level and event-level data handling
+* Dynamic cohort filtering
+* JSON API responses
 * HTTP error handling
+* Weighted clinical risk-score calculation
 * Interactive API documentation with Swagger/OpenAPI
 
-The implementation intentionally keeps the API focused on the requirements of the assessment while maintaining a clear separation between clinical data preparation, filtering logic, and risk-score calculation.
+---
 
+# 14. Data Model
+
+The API uses `USUBJID` as the common identifier between the SDTM AE and DM datasets.
+
+```text
+                SDTM DM
+          -------------------
+          USUBJID | ACTARM
+          -------------------
+             01-001 | Placebo
+             01-002 | Treatment A
+                   |
+                   | USUBJID
+                   |
+                   v
+                SDTM AE
+       -------------------------
+       USUBJID | AESEV | AETERM
+       -------------------------
+       01-001  | MILD  | Headache
+       01-001  | SEVERE| Nausea
+       01-002  | MILD  | Headache
+                   |
+                   v
+             API Analysis
+```
+
+This allows treatment-arm information from DM to be used when analysing adverse events.
+
+---
+
+# 15. Stopping the API
+
+To stop the local development server, press:
+
+```text
+CTRL + C
+```
+
+in the terminal running Uvicorn.
+
+---
+
+## License
+
+This project was developed as part of a clinical data/API coding assessment.
