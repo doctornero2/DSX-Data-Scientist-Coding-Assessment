@@ -305,6 +305,3 @@ The application demonstrates:
 * HTTP error handling
 * Weighted clinical risk-score calculation
 * Interactive API documentation with Swagger/OpenAPI
-
----
-was developed as part of a clinical data/API coding assessment.
