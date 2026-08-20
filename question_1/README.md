@@ -1,4 +1,4 @@
-# descriptiveStats
+# R Package Development: descriptiveStats
 
 ## Introduction
 
@@ -19,6 +19,23 @@ All functions are documented using **Roxygen2** and exported for use by package 
 
 ---
 
+## Package Structure
+
+The main package components are:
+
+```text
+descriptive_stats/
+├── DESCRIPTION          # Package metadata
+├── NAMESPACE            # Exported functions
+├── README.md            # Package documentation
+├── R/                   # Function implementations
+├── man/                 # Roxygen2-generated documentation
+└── tests/
+    └── testthat/        # Unit tests
+```
+
+---
+
 ## Functions
 
 | Function        | Description                                     |
@@ -30,13 +47,17 @@ All functions are documented using **Roxygen2** and exported for use by package 
 | `calc_q3()`     | Calculates the third quartile (75th percentile) |
 | `calc_iqr()`    | Calculates the interquartile range              |
 
-The interquartile range is calculated as:
 
-```text
-IQR = Q3 - Q1
-```
+---
 
-Quartiles use R's default quantile method (`type = 7`).
+## Requirements
+
+The package requires:
+
+* R
+* `roxygen2` for documentation
+* `testthat` for unit testing
+* `devtools` for package installation, testing, and validation
 
 ---
 
@@ -56,48 +77,18 @@ library(descriptiveStats)
 
 ---
 
-## Basic Usage
-
-```r
-library(descriptiveStats)
-
-x <- c(1, 2, 2, 3, 4, 5, 5, 5)
-
-calc_mean(x)
-calc_median(x)
-calc_mode(x)
-calc_q1(x)
-calc_q3(x)
-calc_iqr(x)
-```
-
-The functions return numeric results that can be used directly in further R analyses.
-
----
-
 ## Handling Missing Values
 
-`NA` values are ignored when calculating statistics.
+`NA` values are ignored when calculating statistics. This is valid for every calculation method.
 
 For example:
 
 ```r
 x <- c(1, 2, 3, NA, 5)
 
-calc_mean(x)
-calc_median(x)
-calc_q1(x)
-calc_q3(x)
-calc_iqr(x)
 ```
 
 The calculations are performed using the available non-missing values.
-
-For `calc_mode()`, missing values are also ignored:
-
-```r
-calc_mode(c(1, 1, 2, NA, 2, 3))
-```
 
 ---
 
@@ -239,84 +230,16 @@ From the package root, run:
 ```r
 devtools::test()
 ```
-
-This executes all unit tests in the `tests/testthat/` directory.
-
-A successful test run should report:
-
-```text
-FAIL 0
-WARN 0
-SKIP 0
-```
-
-## Test Coverage
-
-The test suite verifies:
-
-### `calc_mean()`
-
-* Correct arithmetic mean
-* Handling of `NA` values
-* Single-value vectors
-* Empty vectors
-* Vectors containing only `NA`
-* Invalid non-numeric input
-
-### `calc_median()`
-
-* Correct median for odd-length vectors
-* Correct median for even-length vectors
-* Handling of `NA` values
-* Single-value vectors
-* Empty vectors
-* Invalid non-numeric input
-
-### `calc_mode()`
-
-* Single mode
-* Multiple modes / ties
-* No-mode cases
-* Handling of `NA` values
-* Single-value vectors
-* Empty vectors
-* Invalid non-numeric input
-
-### `calc_q1()` and `calc_q3()`
-
-* Correct quartile calculation
-* Handling of `NA` values
-* Single-value vectors
-* Empty vectors
-* Invalid non-numeric input
-
-### `calc_iqr()`
-
-* Correct calculation of `Q3 - Q1`
-* Handling of `NA` values
-* Single-value vectors
-* Empty vectors
-* Invalid non-numeric input
-
----
-
-## Package Validation
-
-In addition to the unit tests, the complete package can be checked using:
+or run the folowng from /tests/ folder:
 
 ```r
-devtools::check()
+library(testthat)
+library(descriptiveStats)
+
+test_check("descriptiveStats")
 ```
 
-This performs additional checks on the package structure, documentation, namespace, examples, tests, and dependencies.
-
-A clean package check should ideally complete with:
-
-```text
-0 errors
-0 warnings
-0 notes
-```
+This executes all unit tests in the `tests/testthat/` directory.
 
 ---
 
@@ -342,32 +265,6 @@ Individual function documentation can then be accessed in R using:
 ?calc_q3
 ?calc_iqr
 ```
-
----
-
-## Package Structure
-
-The main package components are:
-
-```text
-descriptive_stats/
-├── DESCRIPTION          # Package metadata
-├── NAMESPACE            # Exported functions
-├── README.md            # Package documentation
-├── R/                   # Function implementations
-├── man/                 # Roxygen2-generated documentation
-└── tests/
-    └── testthat/        # Unit tests
-```
-
-## Requirements
-
-The package requires:
-
-* R
-* `roxygen2` for documentation
-* `testthat` for unit testing
-* `devtools` for package installation, testing, and validation
 
 ---
 
