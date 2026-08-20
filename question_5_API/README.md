@@ -1,14 +1,12 @@
 # Clinical Trial Data API
 
-## Question 5 — Clinical Data API (FastAPI)
-
 This project implements a RESTful API using **FastAPI** to serve and analyse clinical trial adverse event data.
 
 The API provides:
 
-* A health-check endpoint
-* Dynamic adverse-event cohort filtering
-* Subject-level Safety Risk Score calculation
+* GET /                                         A health-check endpoint
+* POST /ae-query                                Dynamic adverse-event cohort filtering
+* GET /subject-risk/{subject_id}                Subject-level Safety Risk Score calculation
 
 The project uses SDTM **AE (Adverse Events)** and **DM (Demographics)** data from the `pharmaverse` examples.
 
@@ -27,65 +25,14 @@ The SDTM AE dataset contains event-level information such as:
 * Other AE-related variables
 
 The treatment-arm variable `ACTARM` is not part of the SDTM AE domain. It is available in the SDTM DM dataset.
-
-Therefore, the application merges the two datasets using `USUBJID`:
-
-```text
-SDTM AE
-   |
-   | USUBJID
-   |
-   +----------> SDTM DM
-                    |
-                    +-- ACTARM
-                         |
-                         v
-                  AE + ACTARM
-```
+Therefore, the application merges the two datasets using `USUBJID`.
 
 This allows the API to filter adverse events by both:
 
 * AE severity (`AESEV`)
 * Actual treatment arm (`ACTARM`)
 
----
 
-## 2. Data Preparation
-
-The application loads the AE and DM datasets from the `pharmaversesdtm` GitHub repository.
-
-### AE dataset
-
-```text
-https://raw.githubusercontent.com/pharmaverse/pharmaversesdtm/refs/heads/main/inst/extdata/ae.csv
-```
-
-### DM dataset
-
-```text
-https://raw.githubusercontent.com/pharmaverse/pharmaversesdtm/refs/heads/main/inst/extdata/dm.csv
-```
-
-The datasets are loaded using pandas:
-
-```python
-ae = pd.read_csv(url_ae)
-dm = pd.read_csv(url_dm)
-```
-
-`ACTARM` is then added to the AE records using `USUBJID`:
-
-```python
-adae = ae.merge(
-    dm[["USUBJID", "ACTARM"]],
-    on="USUBJID",
-    how="left"
-)
-```
-
-A left join is used so that all AE records are retained.
-
-> Note: The resulting `adae` object is an analysis dataset created for this API. It should not be interpreted as a formally derived CDISC ADaM ADAE dataset.
 
 ---
 
