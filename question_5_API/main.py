@@ -2,7 +2,7 @@
 # DSX Data Scientist Coding Assessment
 # ==============================================================================
 #
-# Quesiotn 5 - Clinical Trial Data API
+# Question 5 - Clinical Trial Data API
 #
 # Purpose:
 #   Create a RESTful API using FastAPI to query clinical adverse event data.
