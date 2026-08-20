@@ -38,12 +38,10 @@ url2 = "https://raw.githubusercontent.com/pharmaverse/pharmaversesdtm/refs/heads
 ae = pd.read_csv(url1)
 dm = pd.read_csv(url2)
 
-# Merge the dm [ACTARM] into the AE
+# Merge the dm [ACTARM] into the AE  (LEFT JOIN SQL)
 # AE is an event-level dataset: One subject can have multiple adverse events.
 # DM is a subject-level dataset: Normally one record per subject.
-# AE and DM naturally have different numbers of rows, USUBJID is used as the common key.
-#
-# Only ACTARM from DM is merged because that is the treatment info required by the API.
+# USUBJID is used as the common key. Only ACTARM from DM is merged as required by the API.
 
 adae = ae.merge(
     dm[["USUBJID", "ACTARM"]],
@@ -71,7 +69,6 @@ app = FastAPI(
     version="1.0.0"
 )
 
-
 # GET /
 # ------
 # Root
@@ -84,16 +81,10 @@ def root():
         "message": "Clinical Trial Data API is running"
     }
 
-
 # POST /ae-query
 # --------------
 # Dynamic filtering
-# API accepts the JSON below. These are optional filters. 
-#
-# {
-#     "severity": ["string"],
-#     "treatment_arm": "string"
-# }
+# API accepts the JSON format. These are optional filters. 
 
 @app.post("/ae-query")
 def query_adverse_events(query: AEQuery):
