@@ -42,7 +42,7 @@ test_that("calc_mean rejects vectors containing only NA", {
   
   expect_error(
     calc_mean(c(NA, NA)),
-    "Error format: the input must be a numeric vector."
+    "contains no non-missing values"
   )
   
 })
