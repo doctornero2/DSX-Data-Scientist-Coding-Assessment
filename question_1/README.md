@@ -27,7 +27,6 @@ The main package components are:
 descriptive_stats/
 ├── DESCRIPTION          # Package metadata
 ├── NAMESPACE            # Exported functions
-├── README.md            # Package documentation
 ├── R/                   # Function implementations
 ├── man/                 # Roxygen2-generated documentation
 └── tests/
@@ -90,11 +89,6 @@ x <- c(1, 2, 3, NA, 5)
 
 The calculations are performed using the available non-missing values.
 
----
-
-## Edge Cases
-
-The package explicitly handles several edge cases.
 
 ### Single value
 
@@ -131,7 +125,6 @@ calc_mean(numeric(0))
 ```
 
 produces an informative error rather than returning an invalid result.
-
 The same behaviour applies to the other statistical functions.
 
 ### All values are `NA`
