@@ -145,25 +145,13 @@ http://127.0.0.1:8000/docs
 
 This provides a Swagger UI where the endpoints can be tested directly from the browser.
 
-FastAPI also provides an alternative documentation interface at:
-
-```text
-http://127.0.0.1:8000/redoc
-```
-
 ---
 
-# 8. Endpoint 1 - API Status
+# 7. Endpoint 1 - API Status
 
 ## GET `/`
 
 Returns a message confirming that the API is running.
-
-### Request
-
-```http
-GET /
-```
 
 ### Response
 
@@ -175,7 +163,7 @@ GET /
 
 ---
 
-# 9. Endpoint 2 - Dynamic AE Query
+# 8. Endpoint 2 - Dynamic AE Query
 
 ## POST `/ae-query`
 
@@ -202,72 +190,7 @@ severity       -> AESEV
 treatment_arm  -> ACTARM
 ```
 
-When both filters are supplied, they are combined using **AND logic**.
-
-Therefore:
-
-```text
-AESEV IN ("MILD", "MODERATE")
-AND
-ACTARM = "Placebo"
-```
-
----
-
-## Severity only
-
-```json
-{
-    "severity": ["MILD", "MODERATE"]
-}
-```
-
-Only the `AESEV` filter is applied.
-
----
-
-## Treatment arm only
-
-```json
-{
-    "treatment_arm": "Placebo"
-}
-```
-
-Only the `ACTARM` filter is applied.
-
----
-
-## No filters
-
-```json
-{}
-```
-
-All AE records are returned.
-
----
-
-## Null values
-
-If a field is `null`, that filter is ignored.
-
-For example:
-
-```json
-{
-    "severity": null,
-    "treatment_arm": "Placebo"
-}
-```
-
-is equivalent to applying only:
-
-```text
-ACTARM = "Placebo"
-```
-
----
+When both filters are supplied, they are combined using **AND logic**. With just one filter, it returns the selected criteria or all the records when no filters are selected {}. If a field is `null`, that filter is ignored.
 
 ## Response
 
@@ -277,7 +200,7 @@ Example:
 
 ```json
 {
-    "count": 12,
+    "count": 3,
     "subject_ids": [
         "01-701-1015",
         "01-701-1020",
@@ -290,7 +213,7 @@ Example:
 
 ---
 
-# 10. Endpoint 3 - Subject Safety Risk
+# 9. Endpoint 3 - Subject Safety Risk
 
 ## GET `/subject-risk/{subject_id}`
 
@@ -318,24 +241,17 @@ Each adverse event receives a weight according to `AESEV`:
 
 The points are summed across all AE records for the subject.
 
-### Example
+## Risk Categories
 
-If a subject has:
+The following thresholds are used:
 
-```text
-MILD
-MODERATE
-MILD
-MODERATE
-```
+|        Risk Score | Category |
+| ----------------: | -------- |
+|             `< 5` | Low      |
+| `5 <= score < 15` | Medium   |
+|           `>= 15` | High     |
 
-the score is:
-
-```text
-1 + 3 + 1 + 3 = 8
-```
-
-Therefore:
+Therefore, in the end we have a Risk Score and a Risk Category:
 
 ```json
 {
@@ -347,36 +263,8 @@ Therefore:
 
 ---
 
-## Risk Categories
 
-The following thresholds are used:
-
-|        Risk Score | Category |
-| ----------------: | -------- |
-|             `< 5` | Low      |
-| `5 <= score < 15` | Medium   |
-|           `>= 15` | High     |
-
-For example:
-
-```text
-Score = 3
-Category = Low
-```
-
-```text
-Score = 8
-Category = Medium
-```
-
-```text
-Score = 15
-Category = High
-```
-
----
-
-# 11. Error Handling
+# 10. Error Handling
 
 If the requested subject does not exist, the API returns HTTP status `404`.
 
@@ -402,120 +290,8 @@ HTTP status:
 
 ---
 
-# 12. Testing the API
 
-The easiest way to test the API is through the automatically generated Swagger interface:
-
-```text
-http://127.0.0.1:8000/docs
-```
-
-Select an endpoint, click **Try it out**, provide the request parameters/body, and click **Execute**.
-
----
-
-## Example API tests
-
-### Test 1 - API status
-
-```http
-GET /
-```
-
-Expected:
-
-```json
-{
-    "message": "Clinical Trial Data API is running"
-}
-```
-
----
-
-### Test 2 - Filter by severity
-
-```http
-POST /ae-query
-```
-
-Request body:
-
-```json
-{
-    "severity": ["MILD", "MODERATE"]
-}
-```
-
----
-
-### Test 3 - Filter by treatment arm
-
-```http
-POST /ae-query
-```
-
-Request body:
-
-```json
-{
-    "treatment_arm": "Placebo"
-}
-```
-
----
-
-### Test 4 - Filter using both criteria
-
-```http
-POST /ae-query
-```
-
-Request body:
-
-```json
-{
-    "severity": ["MILD", "MODERATE"],
-    "treatment_arm": "Placebo"
-}
-```
-
----
-
-### Test 5 - Calculate subject risk
-
-```http
-GET /subject-risk/01-701-1015
-```
-
-Expected response structure:
-
-```json
-{
-    "subject_id": "01-701-1015",
-    "risk_score": 8,
-    "risk_category": "Medium"
-}
-```
-
-The actual score depends on the AE records in the dataset.
-
----
-
-### Test 6 - Unknown subject
-
-```http
-GET /subject-risk/01-999-9999
-```
-
-Expected:
-
-```text
-HTTP 404 Not Found
-```
-
----
-
-# 13. Technical Summary
+# 11. Technical Summary
 
 The application demonstrates:
 
@@ -531,50 +307,4 @@ The application demonstrates:
 * Interactive API documentation with Swagger/OpenAPI
 
 ---
-
-# 14. Data Model
-
-The API uses `USUBJID` as the common identifier between the SDTM AE and DM datasets.
-
-```text
-                SDTM DM
-          -------------------
-          USUBJID | ACTARM
-          -------------------
-             01-001 | Placebo
-             01-002 | Treatment A
-                   |
-                   | USUBJID
-                   |
-                   v
-                SDTM AE
-       -------------------------
-       USUBJID | AESEV | AETERM
-       -------------------------
-       01-001  | MILD  | Headache
-       01-001  | SEVERE| Nausea
-       01-002  | MILD  | Headache
-                   |
-                   v
-             API Analysis
-```
-
-This allows treatment-arm information from DM to be used when analysing adverse events.
-
----
-
-# 15. Stopping the API
-
-To stop the local development server, press:
-
-```text
-CTRL + C
-```
-
-in the terminal running Uvicorn.
-
----
-
-## License
-
-This project was developed as part of a clinical data/API coding assessment.
+was developed as part of a clinical data/API coding assessment.
