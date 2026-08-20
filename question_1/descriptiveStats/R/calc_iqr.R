@@ -26,7 +26,7 @@
 #' @export
 calc_iqr <- function(x) {
   
-  if (!is.numeric(x)) 
+  if (!is.numeric(x) && !all(is.na(x))) 
   {
     stop("Error format: the input must be a numeric vector.")
   }
