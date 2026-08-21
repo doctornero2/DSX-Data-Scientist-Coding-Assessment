@@ -63,7 +63,7 @@ This question focuses on developing a small **R package** for descriptive statis
 
 The package, `descriptiveStats`, implements several statistical functions, including:
 
-* `calc_mean()` – calculates the mean
+* `calc_mean()` – calculates the mean 
 * `calc_median()` – calculates the median
 * `calc_mode()` – identifies the mode, including handling ties and cases where no mode exists
 * `calc_q1()` – calculates the first quartile
@@ -78,22 +78,21 @@ The objective is to demonstrate understanding of **R package structure, function
 
 ### Question 2 - SDTM DS Domain Creation using {sdtm.oak}
 
-This folder contains the implementation of an SDTM DS (Disposition) domain using R. The objective is to demonstrate how clinical trial raw data can be transformed into a CDISC-compliant SDTM domain using a metadata-driven and reusable approach. In the folder, there is just one scritp file as requested. Please make sure you have all the libraries needed. 
+This folder contains the implementation of an SDTM DS (Disposition) domain using R. The objective is to demonstrate how clinical trial raw data can be transformed into a CDISC-compliant SDTM domain using a metadata-driven and reusable approach. 
 
 The script demonstrates:
-```
-Loading raw clinical trial data
-Loading CDISC Controlled Terminology
-Creation of OAK identifier variables
-Mapping raw variables to SDTM variables
-Controlled terminology mapping
-Hard-coded controlled terminology values
-ISO 8601 date/time derivation
-Visit and visit number derivation
-Derivation of DSSEQ
-Derivation of study day
-Creation of the final SDTM DS dataset
-```
+
+* Loading raw clinical trial data
+* Loading CDISC Controlled Terminology
+* Creation of OAK identifier variables
+* Mapping raw variables to SDTM variables
+* Controlled terminology mapping
+* Hard-coded controlled terminology values
+* ISO 8601 date/time derivation
+* Visit and visit number derivation
+* Derivation of DSSEQ
+* Derivation of study day
+* Creation of the final SDTM DS dataset
 
 ---
 
@@ -109,21 +108,21 @@ EX – Exposure
 AE – Adverse Events
 VS – Vital Signs
 ```
+
 The script demonstrates:
-```
-Creation of the ADSL dataset from SDTM DM
-Treatment variable derivation
-Age group derivation
-Treatment start date/time derivation
-Treatment end date/time derivation
-ITT flag derivation
-Abnormal systolic blood pressure flag derivation
-Cardiac adverse event flag derivation
-Last available assessment date derivation
-Merging information from multiple SDTM domains
-Date and date-time transformations
-Subject-level derivations
-```
+
+* Creation of the ADSL dataset from SDTM DM
+* Treatment variable derivation
+* Age group derivation
+* Treatment start date/time derivation
+* Treatment end date/time derivation
+* ITT flag derivation
+* Abnormal systolic blood pressure flag derivation
+* Cardiac adverse event flag derivation
+* Last available assessment date derivation
+* Merging information from multiple SDTM domains
+* Date and date-time transformations
+* Subject-level derivations
 
 ---
 
