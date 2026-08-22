@@ -6,7 +6,7 @@ The Python coding assessment reported to use the `pharmaversesdtm::ae` and in th
 
 Another solution is using the `pharmaverseadam:adae` that  contains all the info required.
 
-To avoid any confusion, when you run the `uvicorn` command, the user will be asked which dataset to use:  
+To avoid any confusion, when running the `uvicorn` command, the user will be asked which dataset to use:  
 
 ```bash
 $ uvicorn main:app --reload
