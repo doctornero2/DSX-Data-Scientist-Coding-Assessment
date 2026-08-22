@@ -2,11 +2,11 @@
 
 A RESTful API built with **FastAPI** for querying clinical adverse event data and calculating patient-level safety risk scores.
 
-The Python coding assessment reported to use the `pharmaversesdtm::ae` and in thid case the API uses SDTM **Adverse Events (AE)** and **Demographics (DM)** data from the Pharmaverse project. The AE and DM datasets are merged using `USUBJID` so that treatment-arm information (`ACTARM`) from DM can be used alongside adverse-event information such as `AESEV`.
+The Python coding assessment reported to use the `pharmaversesdtm::ae` and in this case the API uses SDTM **Adverse Events (AE)** and **Demographics (DM)** data from the Pharmaverse project. The AE and DM datasets are merged using `USUBJID` so that treatment-arm information (`ACTARM`) from DM can be used. 
 
-Another solution is using the `pharmaverseadam:adae` that  contains all the info requiured.
+Another solution is using the `pharmaverseadam:adae` that  contains all the info required.
 
-So when you run the `uvicorn` command you will see the following input selection: 
+To avoid any confusion, when you run the `uvicorn` command, the user will be asked which dataset to use:  
 
 ```bash
 $ uvicorn main:app --reload
