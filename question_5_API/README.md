@@ -15,7 +15,7 @@ DSX DATA SCIENTIST CODING ASSESSMENT
 Clinical Data API
 ------------------------------------
 
-Input selection:
+Input Dataset Selection:
 
 1) pharmaversesdtm::ae   &   pharmaversesdtm::dm
 2) pharmaverseadam::adae
