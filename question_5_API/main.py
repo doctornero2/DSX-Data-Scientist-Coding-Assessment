@@ -14,7 +14,7 @@
 #
 #
 # Note:
-# Question 4 reports to use the adae.csv from pharmaversesdtm::ae 
+# The assessment reports to use the adae.csv from pharmaversesdtm::ae 
 # It seems not correct but to avoid any confusion below there are two options:
 #    1) pharmaversesdtm::ae  -> The treatment arm is obtained from DM and merged 
 #       with AE using USUBJID because ACTARM is subject-level information.
