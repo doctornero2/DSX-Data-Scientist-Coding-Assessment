@@ -2,7 +2,7 @@
 
 A RESTful API built with **FastAPI** for querying clinical adverse event data and calculating patient-level safety risk scores.
 
-The Python coding assessment reported to use the `pharmaversesdtm::ae` and in this case the API uses SDTM **Adverse Events (AE)** and **Demographics (DM)** data from the Pharmaverse project. The AE and DM datasets are merged using `USUBJID` so that treatment-arm information (`ACTARM`) from DM can be used. 
+The Python coding assessment reported to use the `pharmaversesdtm::ae` and in this case we need the DM domain as well to get the `ACTARM` from the Pharmaverse project. The AE and DM datasets are merged using `USUBJID` so that treatment-arm information (`ACTARM`) from DM can be used. 
 
 Another solution is using the `pharmaverseadam:adae` that  contains all the info required.
 
