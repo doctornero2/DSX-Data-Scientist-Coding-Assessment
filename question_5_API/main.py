@@ -13,8 +13,12 @@
 #   GET /subject-risk/{subject_id}
 #
 #
-# The treatment arm is obtained from DM and merged with AE using USUBJID because 
-# ACTARM is subject-level information.
+# Note:
+# Question 4 reports to use the adae.csv from pharmaversesdtm::ae 
+# It seems not correct but to avoid any confusion below there are two options:
+#    1) pharmaversesdtm::ae  -> The treatment arm is obtained from DM and merged 
+#       with AE using USUBJID because ACTARM is subject-level information.
+#    2) pharmaverseadam::adae
 # ==============================================================================
 
 
@@ -29,25 +33,56 @@ from pydantic import BaseModel
 
 # IMPORT CLINICAL DATA AND METADATA
 # ---------------------------------
-# GitHub raw URL containing STDM AE dataset
-url1 = "https://raw.githubusercontent.com/pharmaverse/pharmaversesdtm/refs/heads/main/inst/extdata/ae.csv"
-# GitHub raw URL containing STDM DM dataset (ACTARM needed)
-url2 = "https://raw.githubusercontent.com/pharmaverse/pharmaversesdtm/refs/heads/main/inst/extdata/dm.csv"
 
-# load AE & DM datasets
-ae = pd.read_csv(url1)
-dm = pd.read_csv(url2)
+while True:
+    try:
+        # Selection of Inputs:  1) AE and DM,  2) ADAE
+        print("\n")
+        print("DSX DATA SCIENTIST CODING ASSESSMENT")
+        print("Clinical Data API")
+        print("------------------------------------\n")
+        print("Input Dataset Selection:\n")
+        print("1) pharmaversesdtm::ae   &   pharmaversesdtm::dm")
+        print("2) pharmaverseadam::adae\n")
+        choice = int(input("Please choose option 1 or 2: "))
 
-# Merge the dm [ACTARM] into the AE  (LEFT JOIN SQL)
-# AE is an event-level dataset: One subject can have multiple adverse events.
-# DM is a subject-level dataset: Normally one record per subject.
-# USUBJID is used as the common key. Only ACTARM from DM is merged as required by the API.
+        if choice in [1, 2]:
+            if choice == 1:
+                # 1st OPTION
+                # Merge the dm [ACTARM] into the AE  (LEFT JOIN SQL)
+                
+                # GitHub raw URL containing STDM AE dataset
+                url1 = "https://raw.githubusercontent.com/pharmaverse/pharmaversesdtm/refs/heads/main/inst/extdata/ae.csv"
+                # GitHub raw URL containing STDM DM dataset (ACTARM needed)
+                url2 = "https://raw.githubusercontent.com/pharmaverse/pharmaversesdtm/refs/heads/main/inst/extdata/dm.csv"
 
-adae = ae.merge(
-    dm[["USUBJID", "ACTARM"]],
-    on="USUBJID",
-    how="left"
-)
+                # load AE & DM datasets
+                ae = pd.read_csv(url1)
+                dm = pd.read_csv(url2)
+
+                # AE is an event-level dataset: One subject can have multiple adverse events.
+                # DM is a subject-level dataset: Normally one record per subject.
+                # USUBJID is used as the common key. Only ACTARM from DM is merged as required by the API.
+
+                adae = ae.merge(
+                    dm[["USUBJID", "ACTARM"]],
+                    on="USUBJID",
+                    how="left"
+                )
+            else:   
+                # 2nd OPTION
+                # pharmaverseadam:adae
+                
+                url3 = "https://raw.githubusercontent.com/pharmaverse/pharmaverseadam/main/inst/extdata/adae.csv"
+                
+                # load the ADAE
+                adae = pd.read_csv(url3)
+            break
+
+    except ValueError:
+        print("Invalid input. Please enter a number: 1 or 2.")
+
+
 
 # DEFINE THE REQUEST BODY
 # -----------------------
